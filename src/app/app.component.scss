@@ -15,6 +15,17 @@ header {
   }
 }
 
+main {
+  padding: 1rem;
+}
+
+footer {
+  background-color: #f5f5f5;
+  color: #333;
+  text-align: center;
+  padding: 1rem;
+}
+
 .content-wrapper {
   flex: 1;
   display: flex;
@@ -33,7 +44,7 @@ mat-sidenav {
   &.mini-sidenav {
     width: 60px;
 
-    .mat-list-item {
+    .mat-mdc-list-item {
       justify-content: center;
     }
   }
@@ -49,23 +60,34 @@ mat-sidenav-content {
   margin-left: 60px !important; // Margin when menu is collapsed
 }
 
-.mat-list-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
+mat-nav-list {
+  a.mat-mdc-list-item {
+    height: 48px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
 
-  mat-icon {
-    margin-right: 16px;
+    ::ng-deep .mdc-list-item__content {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .mdc-list-item__start {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+    }
+
+    mat-icon {
+      display: inline-flex;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    span {
+      display: inline-flex;
+      vertical-align: middle;
+    }
   }
-}
-
-main {
-  padding: 1rem;
-}
-
-footer {
-  background-color: #f5f5f5;
-  color: #333;
-  text-align: center;
-  padding: 1rem;
 }
