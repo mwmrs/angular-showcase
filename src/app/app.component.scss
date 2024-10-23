@@ -22,6 +22,7 @@ header {
 
 mat-sidenav-container {
   flex: 1;
+  display: flex;
 }
 
 mat-sidenav {
@@ -36,6 +37,16 @@ mat-sidenav {
       justify-content: center;
     }
   }
+}
+
+mat-sidenav-content {
+  flex: 1;
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 200px; // Initial margin when menu is open
+}
+
+.content-expanded {
+  margin-left: 60px !important; // Margin when menu is collapsed
 }
 
 .mat-list-item {

@@ -3,12 +3,12 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, MatSidenavModule, MatListModule, MatIconModule, NgIf],
+  imports: [RouterOutlet, RouterLink, MatSidenavModule, MatListModule, MatIconModule, NgIf, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
