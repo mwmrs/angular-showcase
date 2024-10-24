@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "master_data": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "pattern": "^[0-9]{10}$"
+        },
+        "group": {
+          "type": "string",
+          "enum": [
+            "Private",
+            "Corporate",
+            "Non-Profit",
+            "Government",
+            "Educational",
+            "Small Business",
+            "Enterprise"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "phone",
+        "group"
+      ]
+    },
+    "creation_info": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "new_account_request",
+            "marketing_campaign",
+            "customer_support",
+            "partner_integration",
+            "system_migration",
+            "other"
+          ]
+        },
+        "comment": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at",
+        "reason"
+      ]
+    },
+    "verified_operational_criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "settlement account",
+              "custody account",
+              "pledge account",
+              "securities account",
+              "other"
+            ]
+          },
+          "value": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "operational_eligibilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "eligibility_name": {
+            "enum": [
+              "stock_trading",
+              "margin_trading",
+              "options_trading",
+              "futures_trading",
+              "crypto_trading"
+            ]
+          },
+          "value": {
+            "type": "boolean"
+          },
+          "suspension": {
+            "type": "boolean"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "measure": {
+            "type": "string",
+            "enum": [
+              "suspension",
+              "exclusion",
+              "limitation"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "master_data",
+    "creation_info"
+  ]
+}

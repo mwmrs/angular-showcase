@@ -1,0 +1,37 @@
+{
+  "master_data": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "1234567890",
+    "group": "Private"
+  },
+  "creation_info": {
+    "created_at": "2021-01-01T00:00:00Z",
+    "reason": "new_account_request"
+  },
+  "verified_operational_criteria": [
+    {
+      "name": "settlement account",
+      "value": true
+    },
+    {
+      "name": "custody account",
+      "value": true
+    }
+  ],
+  "operational_eligibilities": [
+    {
+      "name": "stock_trading",
+      "value": true,
+      "suspension": true,
+      "start_date": "2021-01-01T00:00:00Z",
+      "end_date": "2021-01-01T00:00:00Z",
+      "measure": "suspension"
+    },
+    {
+      "name": "margin_trading",
+      "value": true,
+      "suspension": false
+    }
+  ]
+}
