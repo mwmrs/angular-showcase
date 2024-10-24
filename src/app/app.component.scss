@@ -5,10 +5,24 @@
 }
 
 header {
-  background-color: #3f51b5;
+  background-color: #6daafa;
   color: white;
   padding: 1rem;
   z-index: 2;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-container {
+    margin-right: 1rem;
+  }
+
+  .angular-logo {
+    height: 40px;
+    width: auto;
+  }
 
   h1 {
     margin: 0;
