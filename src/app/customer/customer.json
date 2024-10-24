@@ -9,7 +9,7 @@
     "created_at": "2021-01-01T00:00:00Z",
     "reason": "new_account_request"
   },
-  "verified_operational_criteria": [
+  "operational_criteria": [
     {
       "name": "settlement account",
       "value": true

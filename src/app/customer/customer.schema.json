@@ -64,7 +64,7 @@
         "reason"
       ]
     },
-    "verified_operational_criteria": {
+    "operational_criteria": {
       "type": "array",
       "items": {
         "type": "object",
