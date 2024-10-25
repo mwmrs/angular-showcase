@@ -43,13 +43,32 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
   }
 
   ngOnInit() {
+    this.setupFormControls();
+  }
+
+  private setupFormControls() {
     this.eligibilityOptions.forEach(option => {
-      (this.form.get('values') as FormGroup).addControl(option, this.fb.control(false));
-      (this.form.get('details') as FormGroup).addControl(option, this.fb.group({
+      const valueControl = this.fb.control(false);
+      (this.form.get('values') as FormGroup).addControl(option, valueControl);
+
+      const detailsGroup = this.fb.group({
         start_date: [''],
         end_date: [''],
         measure: ['']
-      }));
+      });
+      (this.form.get('details') as FormGroup).addControl(option, detailsGroup);
+
+      // Disable the entire details group initially
+      detailsGroup.disable();
+
+      // Set up value changes subscription
+      valueControl.valueChanges.subscribe(isChecked => {
+        if (isChecked) {
+          detailsGroup.enable();
+        } else {
+          detailsGroup.disable();
+        }
+      });
     });
   }
 
