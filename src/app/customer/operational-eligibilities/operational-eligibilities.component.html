@@ -1,37 +1,39 @@
 <div [formGroup]="form">
   <h3>Operational Eligibilities</h3>
-  <div formArrayName="eligibilities">
-    <mat-card *ngFor="let eligibility of eligibilities.controls; let i = index" [formGroupName]="i">
-      <mat-form-field>
-        <mat-label>Eligibility Name</mat-label>
-        <mat-select formControlName="eligibility_name" required>
-          <mat-option *ngFor="let option of eligibilityOptions" [value]="option">{{option}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-checkbox formControlName="value">Value</mat-checkbox>
-      <mat-checkbox formControlName="suspension">Suspension</mat-checkbox>
-      <mat-form-field>
-        <mat-label>Start Date</mat-label>
-        <input matInput [matDatepicker]="startPicker" formControlName="start_date">
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>End Date</mat-label>
-        <input matInput [matDatepicker]="endPicker" formControlName="end_date">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Measure</mat-label>
-        <mat-select formControlName="measure">
-          <mat-option *ngFor="let option of measureOptions" [value]="option">{{option}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-icon-button color="warn" (click)="removeEligibility(i)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-card>
-  </div>
-  <button mat-raised-button color="primary" (click)="addEligibility()">Add Eligibility</button>
+
+  <mat-card formGroupName="values">
+    <h4>Select Eligibilities</h4>
+    <div *ngFor="let option of eligibilityOptions">
+      <mat-checkbox [formControlName]="option">{{option | titlecase}}</mat-checkbox>
+    </div>
+  </mat-card>
+
+  <mat-card formGroupName="details">
+    <h4>Eligibility Details</h4>
+    <div *ngFor="let option of eligibilityOptions">
+      <mat-card [formGroupName]="option" [class.disabled-card]="!form.get('values')?.get(option)?.value">
+        <h5>{{option | titlecase}}</h5>
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="start_date" [disabled]="!form.get('values')?.get(option)?.value">
+          <mat-datepicker-toggle matSuffix [for]="startPicker" [disabled]="!form.get('values')?.get(option)?.value"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="end_date" [disabled]="!form.get('values')?.get(option)?.value">
+          <mat-datepicker-toggle matSuffix [for]="endPicker" [disabled]="!form.get('values')?.get(option)?.value"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Measure</mat-label>
+          <mat-select formControlName="measure" [disabled]="!form.get('values')?.get(option)?.value">
+            <mat-option *ngFor="let measureOption of measureOptions" [value]="measureOption">
+              {{measureOption | titlecase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card>
+    </div>
+  </mat-card>
 </div>

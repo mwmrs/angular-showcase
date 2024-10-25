@@ -23,15 +23,13 @@
     {
       "name": "stock_trading",
       "value": true,
-      "suspension": true,
       "start_date": "2021-01-01T00:00:00Z",
       "end_date": "2021-01-01T00:00:00Z",
       "measure": "suspension"
     },
     {
       "name": "margin_trading",
-      "value": true,
-      "suspension": false
+      "value": false
     }
   ]
 }

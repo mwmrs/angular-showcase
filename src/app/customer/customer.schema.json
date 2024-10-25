@@ -102,9 +102,6 @@
           "value": {
             "type": "boolean"
           },
-          "suspension": {
-            "type": "boolean"
-          },
           "start_date": {
             "type": "string",
             "format": "date-time"

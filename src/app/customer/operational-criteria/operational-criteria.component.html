@@ -1,18 +1,8 @@
 <div [formGroup]="form">
   <h3>Operational Criteria</h3>
-  <div formArrayName="criteria">
-    <div *ngFor="let criterion of criteria.controls; let i = index" [formGroupName]="i">
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <mat-select formControlName="name" required>
-          <mat-option *ngFor="let option of criteriaOptions" [value]="option">{{option}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-checkbox formControlName="value">Value</mat-checkbox>
-      <button mat-icon-button color="warn" (click)="removeCriteria(i)">
-        <mat-icon>delete</mat-icon>
-      </button>
+  <form [formGroup]="form">
+    <div *ngFor="let option of criteriaOptions">
+      <mat-checkbox [formControlName]="option">{{ option }}</mat-checkbox>
     </div>
-  </div>
-  <button mat-raised-button color="primary" (click)="addCriteria()">Add Criteria</button>
+  </form>
 </div>
