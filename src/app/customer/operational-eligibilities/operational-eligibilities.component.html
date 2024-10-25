@@ -1,0 +1,37 @@
+<div [formGroup]="form">
+  <h3>Operational Eligibilities</h3>
+  <div formArrayName="eligibilities">
+    <mat-card *ngFor="let eligibility of eligibilities.controls; let i = index" [formGroupName]="i">
+      <mat-form-field>
+        <mat-label>Eligibility Name</mat-label>
+        <mat-select formControlName="eligibility_name" required>
+          <mat-option *ngFor="let option of eligibilityOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox formControlName="value">Value</mat-checkbox>
+      <mat-checkbox formControlName="suspension">Suspension</mat-checkbox>
+      <mat-form-field>
+        <mat-label>Start Date</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="start_date">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>End Date</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="end_date">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Measure</mat-label>
+        <mat-select formControlName="measure">
+          <mat-option *ngFor="let option of measureOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-icon-button color="warn" (click)="removeEligibility(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+  <button mat-raised-button color="primary" (click)="addEligibility()">Add Eligibility</button>
+</div>

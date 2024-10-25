@@ -1,0 +1,16 @@
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Customer Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-master-data formControlName="master_data"></app-master-data>
+      <app-creation-info formControlName="creation_info"></app-creation-info>
+      <app-operational-criteria formControlName="operational_criteria"></app-operational-criteria>
+      <app-operational-eligibilities formControlName="operational_eligibilities"></app-operational-eligibilities>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

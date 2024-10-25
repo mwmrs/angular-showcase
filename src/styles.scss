@@ -2,3 +2,26 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Add these styles at the end of the file
+
+.master-data-container,
+.creation-info-container {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -8px;
+}
+
+.form-field {
+  flex: 1 1 calc(50% - 16px);
+  margin: 8px;
+  min-width: 200px;
+}
+
+.full-width {
+  flex-basis: 100%;
+}

@@ -1,0 +1,27 @@
+<div [formGroup]="form" class="creation-info-container">
+  <h3>Creation Info</h3>
+  <div class="form-row">
+    <mat-form-field class="form-field">
+      <mat-label>Created At</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="created_at" required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('created_at')?.hasError('required')">Created At is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field">
+      <mat-label>Reason</mat-label>
+      <mat-select formControlName="reason" required>
+        <mat-option *ngFor="let reason of reasons" [value]="reason">{{reason}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('reason')?.hasError('required')">Reason is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-row">
+    <mat-form-field class="form-field full-width">
+      <mat-label>Comment</mat-label>
+      <textarea matInput formControlName="comment" rows="3"></textarea>
+    </mat-form-field>
+  </div>
+</div>
