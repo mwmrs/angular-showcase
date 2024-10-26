@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
@@ -7,13 +7,25 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-suspensions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatCardModule,
+  ],
   templateUrl: './suspensions.component.html',
-  styleUrl: './suspensions.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -22,24 +34,80 @@ import {
     },
   ],
 })
-export class SuspensionsComponent implements ControlValueAccessor {
+export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnChanges {
+  @Input() eligibilityOptions: string[] = [];
   form: FormGroup;
+  measureOptions = ['suspension', 'exclusion', 'limitation'];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({});
   }
 
+  ngOnInit() {
+    this.setupFormControls();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['eligibilityOptions']) {
+      this.setupFormControls();
+    }
+  }
+
+  private setupFormControls() {
+    // Remove controls that are no longer in eligibilityOptions
+    Object.keys(this.form.controls).forEach(key => {
+      if (!this.eligibilityOptions.includes(key)) {
+        this.form.removeControl(key);
+      }
+    });
+
+    // Add new controls
+    this.eligibilityOptions.forEach(option => {
+      if (!this.form.contains(option)) {
+        const detailsGroup = this.fb.group({
+          start_date: [''],
+          end_date: [''],
+          measure: ['']
+        });
+        this.form.addControl(option, detailsGroup);
+        detailsGroup.disable();
+      }
+    });
+  }
+
+  updateEligibilityStatus(eligibility: string, isChecked: boolean) {
+    const control = this.form.get(eligibility);
+    if (control) {
+      if (isChecked) {
+        control.enable();
+      } else {
+        control.disable();
+        control.reset();
+      }
+    }
+  }
+
   onTouched: () => void = () => {};
 
   writeValue(val: any): void {
-    console.log(val);
+    if (val && this.form) {
+      Object.keys(val).forEach(key => {
+        if (this.form.get(key)) {
+          this.form.get(key)?.patchValue(val[key]);
+        }
+      });
+    }
   }
 
   registerOnChange(fn: any): void {
-    console.log(fn);
+    this.form.valueChanges.subscribe(fn);
   }
 
   registerOnTouched(fn: any): void {
-    console.log(fn);
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    isDisabled ? this.form.disable() : this.form.enable();
   }
 }

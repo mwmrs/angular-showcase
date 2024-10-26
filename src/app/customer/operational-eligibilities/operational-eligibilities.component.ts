@@ -1,12 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, forwardRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-operational-eligibilities',
@@ -15,12 +11,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule
   ],
   providers: [
     {
@@ -31,14 +23,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ]
 })
 export class OperationalEligibilitiesComponent implements ControlValueAccessor, OnInit {
+  @Output() eligibilityChanged = new EventEmitter<{eligibility: string, checked: boolean}>();
+
   form: FormGroup;
   eligibilityOptions = ['stock_trading', 'margin_trading', 'options_trading', 'futures_trading', 'crypto_trading'];
-  measureOptions = ['suspension', 'exclusion', 'limitation'];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      values: this.fb.group({}),
-      details: this.fb.group({})
+      values: this.fb.group({})
     });
   }
 
@@ -51,22 +43,9 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
       const valueControl = this.fb.control(false);
       (this.form.get('values') as FormGroup).addControl(option, valueControl);
 
-      const detailsGroup = this.fb.group({
-        start_date: [''],
-        end_date: [''],
-        measure: ['']
-      });
-      (this.form.get('details') as FormGroup).addControl(option, detailsGroup);
-
-      // Disable the entire details group initially
-      detailsGroup.disable();
-
-      // Set up value changes subscription
-      valueControl.valueChanges.subscribe(isChecked => {
-        if (isChecked) {
-          detailsGroup.enable();
-        } else {
-          detailsGroup.disable();
+      valueControl.valueChanges.subscribe((isChecked: boolean | null) => {
+        if (isChecked !== null) {
+          this.eligibilityChanged.emit({ eligibility: option, checked: isChecked });
         }
       });
     });
@@ -79,20 +58,12 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
       // Reset all eligibilities to default values
       this.eligibilityOptions.forEach(option => {
         this.form.get('values')?.get(option)?.patchValue(false);
-        this.form.get('details')?.get(option)?.patchValue({
-          start_date: '',
-          end_date: '',
-          measure: ''
-        });
       });
 
       // Set the provided values
       val.forEach((eligibility: any) => {
         if (this.form.get('values')?.get(eligibility.eligibility_name)) {
           this.form.get('values')?.get(eligibility.eligibility_name)?.patchValue(true);
-        }
-        if (this.form.get('details')?.get(eligibility.eligibility_name)) {
-          this.form.get('details')?.get(eligibility.eligibility_name)?.patchValue(eligibility);
         }
       });
     }
@@ -112,13 +83,11 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
 
   getSelectedEligibilities() {
     const values = this.form.get('values')?.value;
-    const details = this.form.get('details')?.value;
     return Object.entries(values)
       .filter(([_, value]) => value === true)
       .map(([key, _]) => ({
         eligibility_name: key,
-        value: true,
-        ...details[key]
+        value: true
       }));
   }
 }
