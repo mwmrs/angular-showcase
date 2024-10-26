@@ -1,8 +1,12 @@
 <div [formGroup]="form">
-  <h3>Operational Criteria</h3>
-  <form [formGroup]="form">
-    <div *ngFor="let option of criteriaOptions">
-      <mat-checkbox [formControlName]="option">{{ option }}</mat-checkbox>
-    </div>
-  </form>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Operational Criteria</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngFor="let option of criteriaOptions">
+        <mat-checkbox [formControlName]="option">{{ option }}</mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

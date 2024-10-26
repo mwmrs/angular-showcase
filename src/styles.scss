@@ -1,19 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-// Add these styles at the end of the file
-
-.master-data-container,
-.creation-info-container {
-  margin-bottom: 20px;
+html,
+body {
+  height: 100%;
 }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h1 {
+  font-size: 22px;
+}
+// Updated styles
 
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  margin: -8px;
+  margin: 2px;
 }
 
 .form-field {
@@ -24,4 +27,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .full-width {
   flex-basis: 100%;
+}
+
+mat-card {
+  margin-bottom: 10px;
+}
+
+mat-card-header {
+  .mat-mdc-card-title {
+    font-size: 18px !important;
+    font-weight: bold !important;
+  }
+}
+
+mat-card-content {
+  padding: 10px;
 }

@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-operational-criteria',
   templateUrl: './operational-criteria.component.html',
@@ -18,15 +18,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
   ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => OperationalCriteriaComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class OperationalCriteriaComponent implements ControlValueAccessor, OnInit {
   form: FormGroup;
@@ -34,7 +35,7 @@ export class OperationalCriteriaComponent implements ControlValueAccessor, OnIni
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({});
-    this.criteriaOptions.forEach(option => {
+    this.criteriaOptions.forEach((option) => {
       this.form.addControl(option, this.fb.control(false));
     });
   }
@@ -46,7 +47,7 @@ export class OperationalCriteriaComponent implements ControlValueAccessor, OnIni
   writeValue(val: any): void {
     if (val && this.form) {
       // Reset all criteria to false
-      this.criteriaOptions.forEach(option => {
+      this.criteriaOptions.forEach((option) => {
         this.form.get(option)?.setValue(false);
       });
 

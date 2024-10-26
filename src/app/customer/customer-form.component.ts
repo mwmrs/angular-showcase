@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CreationInfoComponent } from './creation-info/creation-info.component';
@@ -35,7 +30,7 @@ export class CustomerFormComponent implements OnInit, AfterViewInit {
   @ViewChild(OperationalEligibilitiesComponent) operationalEligibilitiesComponent!: OperationalEligibilitiesComponent;
 
   customerForm: FormGroup;
-  eligibilityOptions: string[] = [];
+  eligibilityOptions = signal<string[]>([]);
 
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.customerForm = this.fb.group({
@@ -43,7 +38,7 @@ export class CustomerFormComponent implements OnInit, AfterViewInit {
       creation_info: [null, Validators.required],
       operational_criteria: [[]],
       operational_eligibilities: [[]],
-      suspensions: [{}]
+      suspensions: [{}],
     });
   }
 
@@ -51,7 +46,7 @@ export class CustomerFormComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.operationalEligibilitiesComponent) {
-      this.eligibilityOptions = this.operationalEligibilitiesComponent.eligibilityOptions;
+      this.eligibilityOptions.set(this.operationalEligibilitiesComponent.eligibilityOptions);
       this.cdr.detectChanges();
     }
   }
@@ -63,7 +58,7 @@ export class CustomerFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onEligibilityChanged(event: {eligibility: string, checked: boolean}) {
+  onEligibilityChanged(event: { eligibility: string; checked: boolean }) {
     if (this.suspensionsComponent) {
       this.suspensionsComponent.updateEligibilityStatus(event.eligibility, event.checked);
     }

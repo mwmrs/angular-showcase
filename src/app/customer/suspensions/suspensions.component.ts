@@ -1,17 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormBuilder,
-  FormGroup,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { Component, forwardRef, input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-suspensions',
@@ -35,7 +29,8 @@ import { MatCardModule } from '@angular/material/card';
   ],
 })
 export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnChanges {
-  @Input() eligibilityOptions: string[] = [];
+  eligibilityOptions = input<string[]>([]);
+
   form: FormGroup;
   measureOptions = ['suspension', 'exclusion', 'limitation'];
 
@@ -55,19 +50,19 @@ export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnCha
 
   private setupFormControls() {
     // Remove controls that are no longer in eligibilityOptions
-    Object.keys(this.form.controls).forEach(key => {
-      if (!this.eligibilityOptions.includes(key)) {
+    Object.keys(this.form.controls).forEach((key) => {
+      if (!this.eligibilityOptions().includes(key)) {
         this.form.removeControl(key);
       }
     });
 
     // Add new controls
-    this.eligibilityOptions.forEach(option => {
+    this.eligibilityOptions().forEach((option) => {
       if (!this.form.contains(option)) {
         const detailsGroup = this.fb.group({
           start_date: [''],
           end_date: [''],
-          measure: ['']
+          measure: [''],
         });
         this.form.addControl(option, detailsGroup);
         detailsGroup.disable();
@@ -91,7 +86,7 @@ export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnCha
 
   writeValue(val: any): void {
     if (val && this.form) {
-      Object.keys(val).forEach(key => {
+      Object.keys(val).forEach((key) => {
         if (this.form.get(key)) {
           this.form.get(key)?.patchValue(val[key]);
         }

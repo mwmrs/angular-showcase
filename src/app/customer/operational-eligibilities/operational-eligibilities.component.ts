@@ -1,36 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, forwardRef, OnInit, output } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-operational-eligibilities',
   templateUrl: './operational-eligibilities.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatCardModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => OperationalEligibilitiesComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class OperationalEligibilitiesComponent implements ControlValueAccessor, OnInit {
-  @Output() eligibilityChanged = new EventEmitter<{eligibility: string, checked: boolean}>();
+  eligibilityChanged = output<{ eligibility: string; checked: boolean }>();
 
   form: FormGroup;
   eligibilityOptions = ['stock_trading', 'margin_trading', 'options_trading', 'futures_trading', 'crypto_trading'];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      values: this.fb.group({})
+      values: this.fb.group({}),
     });
   }
 
@@ -39,7 +34,7 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
   }
 
   private setupFormControls() {
-    this.eligibilityOptions.forEach(option => {
+    this.eligibilityOptions.forEach((option) => {
       const valueControl = this.fb.control(false);
       (this.form.get('values') as FormGroup).addControl(option, valueControl);
 
@@ -56,7 +51,7 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
   writeValue(val: any): void {
     if (val && this.form) {
       // Reset all eligibilities to default values
-      this.eligibilityOptions.forEach(option => {
+      this.eligibilityOptions.forEach((option) => {
         this.form.get('values')?.get(option)?.patchValue(false);
       });
 
@@ -87,7 +82,7 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
       .filter(([_, value]) => value === true)
       .map(([key, _]) => ({
         eligibility_name: key,
-        value: true
+        value: true,
       }));
   }
 }
