@@ -72,10 +72,10 @@
           "name": {
             "type": "string",
             "enum": [
-              "settlement account",
-              "custody account",
-              "pledge account",
-              "securities account",
+              "settlement_account",
+              "custody_account",
+              "pledge_account",
+              "securities_account",
               "other"
             ]
           },

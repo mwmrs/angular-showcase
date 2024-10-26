@@ -11,11 +11,11 @@
   },
   "operational_criteria": [
     {
-      "name": "settlement account",
+      "name": "settlement_account",
       "value": true
     },
     {
-      "name": "custody account",
+      "name": "custody_account",
       "value": true
     }
   ],

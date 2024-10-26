@@ -31,7 +31,7 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class OperationalCriteriaComponent implements ControlValueAccessor, OnInit {
   form: FormGroup;
-  criteriaOptions = ['settlement account', 'custody account', 'pledge account', 'securities account', 'other'];
+  criteriaOptions = ['settlement_account', 'custody_account', 'pledge_account', 'securities_account', 'other'];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({});

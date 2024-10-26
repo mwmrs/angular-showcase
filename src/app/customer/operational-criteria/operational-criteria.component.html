@@ -4,9 +4,9 @@
       <mat-card-title>Operational Criteria</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div *ngFor="let option of criteriaOptions">
-        <mat-checkbox [formControlName]="option">{{ option }}</mat-checkbox>
-      </div>
+      @for (option of criteriaOptions; track option) {
+        <mat-checkbox [formControlName]="option">{{ option | titlecase }}</mat-checkbox><br />
+      }
     </mat-card-content>
   </mat-card>
 </div>
