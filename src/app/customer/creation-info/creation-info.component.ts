@@ -1,18 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormBuilder,
   FormGroup,
+  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  ValidationErrors,
+  Validator,
   Validators,
 } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-creation-info',
   templateUrl: './creation-info.component.html',
@@ -32,9 +37,14 @@ import { MatCardModule } from '@angular/material/card';
       useExisting: forwardRef(() => CreationInfoComponent),
       multi: true,
     },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => CreationInfoComponent),
+      multi: true,
+    },
   ],
 })
-export class CreationInfoComponent implements ControlValueAccessor {
+export class CreationInfoComponent implements ControlValueAccessor, Validator {
   form: FormGroup;
   reasons = [
     'new_account_request',
@@ -71,5 +81,9 @@ export class CreationInfoComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     isDisabled ? this.form.disable() : this.form.enable();
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    return this.form.valid ? null : { invalidForm: true };
   }
 }
