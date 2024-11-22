@@ -17,22 +17,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 @Component({
-  selector: 'app-master-data',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule],
-  templateUrl: './master-data.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MasterDataComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => MasterDataComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-master-data',
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCardModule],
+    templateUrl: './master-data.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MasterDataComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => MasterDataComponent),
+            multi: true,
+        },
+    ]
 })
 export class MasterDataComponent implements ControlValueAccessor, Validator {
   form: FormGroup;

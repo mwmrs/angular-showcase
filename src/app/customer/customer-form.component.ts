@@ -10,20 +10,19 @@ import { OperationalEligibilitiesComponent } from './operational-eligibilities/o
 import { SuspensionsComponent } from './suspensions/suspensions.component';
 
 @Component({
-  selector: 'app-customer-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MasterDataComponent,
-    CreationInfoComponent,
-    OperationalCriteriaComponent,
-    OperationalEligibilitiesComponent,
-    SuspensionsComponent,
-  ],
-  templateUrl: './customer-form.component.html',
+    selector: 'app-customer-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatButtonModule,
+        MasterDataComponent,
+        CreationInfoComponent,
+        OperationalCriteriaComponent,
+        OperationalEligibilitiesComponent,
+        SuspensionsComponent,
+    ],
+    templateUrl: './customer-form.component.html'
 })
 export class CustomerFormComponent implements OnInit, AfterViewInit {
   @ViewChild(SuspensionsComponent) suspensionsComponent!: SuspensionsComponent;

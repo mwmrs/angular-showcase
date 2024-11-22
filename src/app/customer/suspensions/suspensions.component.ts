@@ -8,25 +8,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-suspensions',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatCardModule,
-  ],
-  templateUrl: './suspensions.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SuspensionsComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-suspensions',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatCardModule,
+    ],
+    templateUrl: './suspensions.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SuspensionsComponent),
+            multi: true,
+        },
+    ]
 })
 export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnChanges {
   eligibilityOptions = input<string[]>([]);

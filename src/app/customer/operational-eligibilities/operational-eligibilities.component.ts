@@ -5,17 +5,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'app-operational-eligibilities',
-  templateUrl: './operational-eligibilities.component.html',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => OperationalEligibilitiesComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-operational-eligibilities',
+    templateUrl: './operational-eligibilities.component.html',
+    imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => OperationalEligibilitiesComponent),
+            multi: true,
+        },
+    ]
 })
 export class OperationalEligibilitiesComponent implements ControlValueAccessor, OnInit {
   eligibilityChanged = output<{ eligibility: string; checked: boolean }>();

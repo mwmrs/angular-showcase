@@ -19,30 +19,29 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-creation-info',
-  templateUrl: './creation-info.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatCardModule,
-  ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CreationInfoComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => CreationInfoComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-creation-info',
+    templateUrl: './creation-info.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatCardModule,
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CreationInfoComponent),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => CreationInfoComponent),
+            multi: true,
+        },
+    ]
 })
 export class CreationInfoComponent implements ControlValueAccessor, Validator {
   form: FormGroup;

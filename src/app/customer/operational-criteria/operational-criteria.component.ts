@@ -8,26 +8,25 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 @Component({
-  selector: 'app-operational-criteria',
-  templateUrl: './operational-criteria.component.html',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatIconModule,
-    MatCheckboxModule,
-    MatCardModule,
-  ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => OperationalCriteriaComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-operational-criteria',
+    templateUrl: './operational-criteria.component.html',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatCardModule,
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => OperationalCriteriaComponent),
+            multi: true,
+        },
+    ]
 })
 export class OperationalCriteriaComponent implements ControlValueAccessor, OnInit {
   form: FormGroup;
