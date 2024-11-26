@@ -117,7 +117,16 @@ export class SuspensionsComponent implements ControlValueAccessor, OnInit, OnCha
 
   // Add validator implementation
   validate(control: AbstractControl): ValidationErrors | null {
-    return this.form.valid ? null : { invalidForm: true };
+    // Check if any control is enabled and invalid
+    const hasEnabledInvalidControls = Object.keys(this.form.controls).some(key => {
+      const control = this.form.get(key);
+      return control?.enabled && control?.invalid;
+    });
+
+    // Form is valid if either:
+    // 1. No controls are enabled (no eligibilities selected), or
+    // 2. All enabled controls are valid
+    return hasEnabledInvalidControls ? { invalidForm: true } : null;
   }
 
   onTouched: () => void = () => {};
