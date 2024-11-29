@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, signal, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +8,7 @@ import { MasterDataComponent } from './master-data/master-data.component';
 import { OperationalCriteriaComponent } from './operational-criteria/operational-criteria.component';
 import { OperationalEligibilitiesComponent } from './operational-eligibilities/operational-eligibilities.component';
 import { SuspensionsComponent } from './suspensions/suspensions.component';
-
+import { CustomerFormStore } from './store/customer-form.store';
 @Component({
     selector: 'app-customer-form',
     imports: [
@@ -30,6 +30,8 @@ export class CustomerFormComponent implements OnInit, AfterViewInit {
 
   customerForm: FormGroup;
   eligibilityOptions = signal<string[]>([]);
+
+  store = inject(CustomerFormStore);
 
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     this.customerForm = this.fb.group({
