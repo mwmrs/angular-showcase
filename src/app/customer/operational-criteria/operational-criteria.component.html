@@ -4,9 +4,15 @@
       <mat-card-title>Operational Criteria</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      @for (option of criteriaOptions; track option) {
-        <mat-checkbox [formControlName]="option">{{ option | titlecase }}</mat-checkbox><br />
-      }
+      <mat-checkbox formControlName="settlement_account"> Settlement Account </mat-checkbox><br />
+
+      <mat-checkbox formControlName="custody_account"> Custody Account </mat-checkbox><br />
+
+      <mat-checkbox formControlName="pledge_account"> Pledge Account </mat-checkbox><br />
+
+      <mat-checkbox formControlName="securities_account"> Securities Account </mat-checkbox><br />
+
+      <mat-checkbox formControlName="other"> Other </mat-checkbox><br />
     </mat-card-content>
   </mat-card>
 </div>
