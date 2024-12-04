@@ -3,17 +3,17 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import {
   ControlValueAccessor,
   FormBuilder,
+  FormControl,
   FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  FormControl,
 } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatCardModule } from '@angular/material/card';
 
 interface OperationalCriteriaForm {
   settlement_account: FormControl<boolean>;
@@ -88,9 +88,4 @@ export class OperationalCriteriaComponent implements ControlValueAccessor, OnIni
     }
   }
 
-  // getSelectedCriteria() {
-  //   return Object.entries(this.form.value)
-  //     .filter(([_, value]) => value === true)
-  //     .map(([key, _]) => ({ name: key, value: true }));
-  // }
 }

@@ -7,11 +7,8 @@
       <app-master-data formControlName="master_data"></app-master-data>
       <app-creation-info formControlName="creation_info"></app-creation-info>
       <app-operational-criteria formControlName="operational_criteria"></app-operational-criteria>
-      <app-operational-eligibilities
-        formControlName="operational_eligibilities"
-        (eligibilityChanged)="onEligibilityChanged($event)"
-      ></app-operational-eligibilities>
-      <app-suspensions formControlName="suspensions" [eligibilityOptions]="eligibilityOptions()"></app-suspensions>
+      <app-operational-eligibilities formControlName="operational_eligibilities"></app-operational-eligibilities>
+      <app-suspensions formControlName="suspensions"></app-suspensions>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit" [disabled]="customerForm.invalid">Submit</button>

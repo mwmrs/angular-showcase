@@ -1,87 +1,78 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit, output } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, OnInit } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+interface OperationalEligibilitiesForm {
+  stock_trading: FormControl<boolean>;
+  margin_trading: FormControl<boolean>;
+  options_trading: FormControl<boolean>;
+  futures_trading: FormControl<boolean>;
+  crypto_trading: FormControl<boolean>;
+}
+
 @Component({
-    selector: 'app-operational-eligibilities',
-    templateUrl: './operational-eligibilities.component.html',
-    imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => OperationalEligibilitiesComponent),
-            multi: true,
-        },
-    ]
+  selector: 'app-operational-eligibilities',
+  templateUrl: './operational-eligibilities.component.html',
+  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OperationalEligibilitiesComponent),
+      multi: true,
+    },
+  ],
 })
 export class OperationalEligibilitiesComponent implements ControlValueAccessor, OnInit {
-  eligibilityChanged = output<{ eligibility: string; checked: boolean }>();
+  form: FormGroup<OperationalEligibilitiesForm>;
 
-  form: FormGroup;
-  eligibilityOptions = ['stock_trading', 'margin_trading', 'options_trading', 'futures_trading', 'crypto_trading'];
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      values: this.fb.group({}),
+    this.form = this.fb.group<OperationalEligibilitiesForm>({
+      stock_trading: new FormControl(false, { nonNullable: true }),
+      margin_trading: new FormControl(false, { nonNullable: true }),
+      options_trading: new FormControl(false, { nonNullable: true }),
+      futures_trading: new FormControl(false, { nonNullable: true }),
+      crypto_trading: new FormControl(false, { nonNullable: true }),
     });
   }
 
-  ngOnInit() {
-    this.setupFormControls();
-  }
+  ngOnInit() {}
 
-  private setupFormControls() {
-    this.eligibilityOptions.forEach((option) => {
-      const valueControl = this.fb.control(false);
-      (this.form.get('values') as FormGroup).addControl(option, valueControl);
-
-      valueControl.valueChanges.subscribe((isChecked: boolean | null) => {
-        if (isChecked !== null) {
-          this.eligibilityChanged.emit({ eligibility: option, checked: isChecked });
-        }
-      });
-    });
-  }
-
-  onTouched: () => void = () => {};
-
-  writeValue(val: any): void {
-    if (val && this.form) {
-      // Reset all eligibilities to default values
-      this.eligibilityOptions.forEach((option) => {
-        this.form.get('values')?.get(option)?.patchValue(false);
-      });
-
-      // Set the provided values
-      val.forEach((eligibility: any) => {
-        if (this.form.get('values')?.get(eligibility.eligibility_name)) {
-          this.form.get('values')?.get(eligibility.eligibility_name)?.patchValue(true);
-        }
-      });
+  writeValue(val: Partial<{ [K in keyof OperationalEligibilitiesForm]: boolean }>): void {
+    if (val) {
+      this.form.patchValue(val, { emitEvent: false });
     }
   }
 
   registerOnChange(fn: any): void {
-    this.form.valueChanges.subscribe(fn);
+    this.onChange = fn;
+    this.form.valueChanges.subscribe((value) => {
+      this.onChange(value);
+      this.onTouched();
+    });
   }
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    isDisabled ? this.form.disable() : this.form.enable();
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
   }
 
-  getSelectedEligibilities() {
-    const values = this.form.get('values')?.value;
-    return Object.entries(values)
-      .filter(([_, value]) => value === true)
-      .map(([key, _]) => ({
-        eligibility_name: key,
-        value: true,
-      }));
-  }
 }

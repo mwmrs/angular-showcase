@@ -1,12 +1,18 @@
 <div [formGroup]="form">
-  <mat-card formGroupName="values">
+  <mat-card>
     <mat-card-header>
       <mat-card-title>Operational Eligibilities</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      @for (option of eligibilityOptions; track option) {
-        <mat-checkbox [formControlName]="option">{{ option | titlecase }}</mat-checkbox><br />
-      }
+      <mat-checkbox formControlName="stock_trading"> Stock Trading </mat-checkbox><br />
+
+      <mat-checkbox formControlName="margin_trading"> Margin Trading </mat-checkbox><br />
+
+      <mat-checkbox formControlName="options_trading"> Options Trading </mat-checkbox><br />
+
+      <mat-checkbox formControlName="futures_trading"> Futures Trading </mat-checkbox><br />
+
+      <mat-checkbox formControlName="crypto_trading"> Crypto Trading </mat-checkbox><br />
     </mat-card-content>
   </mat-card>
 </div>
