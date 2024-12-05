@@ -1,6 +1,17 @@
 import { Component, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormGroup,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  ReactiveFormsModule,
+  Validator,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +31,11 @@ import { MatSelectModule } from '@angular/material/select';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SuspensionRowComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => SuspensionRowComponent),
       multi: true,
     },
@@ -49,16 +65,16 @@ import { MatSelectModule } from '@angular/material/select';
     </div>
   `,
 })
-export class SuspensionRowComponent implements ControlValueAccessor {
+export class SuspensionRowComponent implements ControlValueAccessor, Validator {
   form: FormGroup;
   measureOptions = ['suspension', 'exclusion', 'limitation'];
   disabled = false;
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      start_date: [null],
+      start_date: [null, Validators.required],
       end_date: [null],
-      measure: [null],
+      measure: [null, Validators.required],
     });
 
     this.form.valueChanges.subscribe((value) => {
@@ -93,5 +109,31 @@ export class SuspensionRowComponent implements ControlValueAccessor {
     } else {
       this.form.enable();
     }
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.form.valid) {
+      return {
+        suspensionRow: {
+          valid: false,
+          message: 'Suspension row is invalid',
+          errors: this.form.errors,
+        },
+      };
+    }
+
+    const startDate = this.form.get('start_date')?.value;
+    const endDate = this.form.get('end_date')?.value;
+
+    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+      return {
+        dateRange: {
+          valid: false,
+          message: 'End date must be after start date',
+        },
+      };
+    }
+
+    return null;
   }
 }
