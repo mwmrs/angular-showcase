@@ -4,31 +4,34 @@
       <mat-card-title>Suspensions</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div *ngFor="let option of eligibilityOptions()">
-        <div [formGroupName]="option" [class.disabled-card]="form.get(option)?.disabled">
-          <span>{{ option | titlecase }}</span>
-          <div style="display: flex; gap: 16px">
-            <mat-form-field>
-              <mat-label>Start Date</mat-label>
-              <input matInput [matDatepicker]="startPicker" formControlName="start_date" />
-              <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-              <mat-datepicker #startPicker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>End Date</mat-label>
-              <input matInput [matDatepicker]="endPicker" formControlName="end_date" />
-              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-              <mat-datepicker #endPicker></mat-datepicker>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Measure</mat-label>
-              <mat-select formControlName="measure">
-                <mat-option *ngFor="let measureOption of measureOptions" [value]="measureOption">
-                  {{ measureOption | titlecase }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+      <div>
+        <div [class.disabled-card]="form.get('stock_trading')?.disabled">
+          <span>Stock Trading</span>
+          <app-suspension-row [formControlName]="'stock_trading'"></app-suspension-row>
+        </div>
+      </div>
+      <div>
+        <div [class.disabled-card]="form.get('margin_trading')?.disabled">
+          <span>Margin Trading</span>
+          <app-suspension-row [formControlName]="'margin_trading'"></app-suspension-row>
+        </div>
+      </div>
+      <div>
+        <div [class.disabled-card]="form.get('options_trading')?.disabled">
+          <span>Options Trading</span>
+          <app-suspension-row [formControlName]="'options_trading'"></app-suspension-row>
+        </div>
+      </div>
+      <div>
+        <div [class.disabled-card]="form.get('futures_trading')?.disabled">
+          <span>Futures Trading</span>
+          <app-suspension-row [formControlName]="'futures_trading'"></app-suspension-row>
+        </div>
+      </div>
+      <div>
+        <div [class.disabled-card]="form.get('crypto_trading')?.disabled">
+          <span>Crypto Trading</span>
+          <app-suspension-row [formControlName]="'crypto_trading'"></app-suspension-row>
         </div>
       </div>
     </mat-card-content>
