@@ -54,12 +54,12 @@ interface CreationInfoForm {
 export class CreationInfoComponent implements ControlValueAccessor, Validator {
   form: FormGroup<CreationInfoForm>;
   reasons = [
-    'new_account_request',
-    'marketing_campaign',
-    'customer_support',
-    'partner_integration',
-    'system_migration',
-    'other',
+    'New Account Request',
+    'Marketing Campaign',
+    'Customer Support',
+    'Partner Integration',
+    'System Migration',
+    'Other',
   ];
 
   constructor(private fb: FormBuilder) {
