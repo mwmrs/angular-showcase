@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, inject } from '@angular/core';
+import { Component, forwardRef, inject, effect } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SuspensionRowComponent } from './suspension-row/suspension-row.component';
+import { CustomerFormStore } from '../store/customer-form.store';
 
 interface SuspensionsForm {
   stock_trading: FormControl<any | null>;
@@ -54,6 +55,7 @@ interface SuspensionsForm {
 })
 export class SuspensionsComponent implements ControlValueAccessor, Validator {
   private fb = inject(FormBuilder);
+  private store = inject(CustomerFormStore);
 
   form = this.fb.group<SuspensionsForm>({
     stock_trading: new FormControl(null),
@@ -64,6 +66,17 @@ export class SuspensionsComponent implements ControlValueAccessor, Validator {
   });
 
   constructor() {
+    // Subscribe to store's disabled state changes
+    effect(() => {
+      const disabledState = this.store.suspensionDisabledState();
+      Object.entries(disabledState).forEach(([key, disabled]) => {
+        const control = this.form.get(key);
+        if (control) {
+          disabled ? control.disable() : control.enable();
+        }
+      });
+    });
+
     this.form.valueChanges.subscribe((value) => {
       this.onChange(value);
       this.onTouched();

@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, inject, OnInit } from '@angular/core';
+import { CustomerFormStore } from '../store/customer-form.store';
 import {
   ControlValueAccessor,
   FormBuilder,
   FormControl,
-  FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
@@ -22,7 +22,12 @@ interface OperationalEligibilitiesForm {
 @Component({
   selector: 'app-operational-eligibilities',
   templateUrl: './operational-eligibilities.component.html',
-  imports: [CommonModule, ReactiveFormsModule, MatCheckboxModule, MatCardModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatCheckboxModule,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -32,24 +37,31 @@ interface OperationalEligibilitiesForm {
   ],
 })
 export class OperationalEligibilitiesComponent implements ControlValueAccessor, OnInit {
-  form: FormGroup<OperationalEligibilitiesForm>;
+  private store = inject(CustomerFormStore);
+  private fb = inject(FormBuilder);
 
-  private onChange: (value: any) => void = () => {};
-  private onTouched: () => void = () => {};
+  form = this.fb.group<OperationalEligibilitiesForm>({
+    stock_trading: new FormControl(false, { nonNullable: true }),
+    margin_trading: new FormControl(false, { nonNullable: true }),
+    options_trading: new FormControl(false, { nonNullable: true }),
+    futures_trading: new FormControl(false, { nonNullable: true }),
+    crypto_trading: new FormControl(false, { nonNullable: true }),
+  });
 
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group<OperationalEligibilitiesForm>({
-      stock_trading: new FormControl(false, { nonNullable: true }),
-      margin_trading: new FormControl(false, { nonNullable: true }),
-      options_trading: new FormControl(false, { nonNullable: true }),
-      futures_trading: new FormControl(false, { nonNullable: true }),
-      crypto_trading: new FormControl(false, { nonNullable: true }),
+  ngOnInit() {
+    this.form.valueChanges.subscribe((values) => {
+      Object.entries(values).forEach(([key, value]) => {
+        this.store.updateEligibility(key as any, !!value);
+      });
+      this.onChange(values);
+      this.onTouched();
     });
   }
 
-  ngOnInit() {}
+  private onChange: any = () => {};
+  private onTouched: any = () => {};
 
-  writeValue(val: Partial<{ [K in keyof OperationalEligibilitiesForm]: boolean }>): void {
+  writeValue(val: any): void {
     if (val) {
       this.form.patchValue(val, { emitEvent: false });
     }
@@ -57,10 +69,6 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
-    this.form.valueChanges.subscribe((value) => {
-      this.onChange(value);
-      this.onTouched();
-    });
   }
 
   registerOnTouched(fn: any): void {
@@ -68,11 +76,6 @@ export class OperationalEligibilitiesComponent implements ControlValueAccessor, 
   }
 
   setDisabledState(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.form.disable();
-    } else {
-      this.form.enable();
-    }
+    isDisabled ? this.form.disable() : this.form.enable();
   }
-
 }

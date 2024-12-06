@@ -1,18 +1,14 @@
 <div [formGroup]="form">
-  <mat-card>
+  <mat-card appearance="outlined">
     <mat-card-header>
       <mat-card-title>Operational Eligibilities</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <mat-checkbox formControlName="stock_trading"> Stock Trading </mat-checkbox><br />
-
-      <mat-checkbox formControlName="margin_trading"> Margin Trading </mat-checkbox><br />
-
-      <mat-checkbox formControlName="options_trading"> Options Trading </mat-checkbox><br />
-
-      <mat-checkbox formControlName="futures_trading"> Futures Trading </mat-checkbox><br />
-
-      <mat-checkbox formControlName="crypto_trading"> Crypto Trading </mat-checkbox><br />
+    <mat-card-content style="display: flex; flex-direction: column">
+      <mat-checkbox formControlName="stock_trading"> Stock Trading </mat-checkbox>
+      <mat-checkbox formControlName="margin_trading"> Margin Trading </mat-checkbox>
+      <mat-checkbox formControlName="options_trading"> Options Trading </mat-checkbox>
+      <mat-checkbox formControlName="futures_trading"> Futures Trading </mat-checkbox>
+      <mat-checkbox formControlName="crypto_trading"> Crypto Trading </mat-checkbox>
     </mat-card-content>
   </mat-card>
 </div>

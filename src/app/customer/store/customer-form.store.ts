@@ -1,68 +1,45 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { signalStore, withMethods, withState, patchState } from '@ngrx/signals';
 import { computed } from '@angular/core';
 
 interface CustomerFormState {
-  masterData: any | null;
-  creationInfo: any | null;
-  operationalCriteria: any[];
-  operationalEligibilities: { eligibility_name: string; value: boolean }[];
-  suspensions: Record<string, { start_date: Date | null; end_date: Date | null; measure: string | null }>;
-  eligibilityOptions: string[];
+  eligibilities: {
+    stock_trading: boolean;
+    margin_trading: boolean;
+    options_trading: boolean;
+    futures_trading: boolean;
+    crypto_trading: boolean;
+  };
 }
 
 const initialState: CustomerFormState = {
-  masterData: null,
-  creationInfo: null,
-  operationalCriteria: [],
-  operationalEligibilities: [],
-  suspensions: {},
-  eligibilityOptions: []
+  eligibilities: {
+    stock_trading: false,
+    margin_trading: false,
+    options_trading: false,
+    futures_trading: false,
+    crypto_trading: false,
+  },
 };
 
 export const CustomerFormStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withMethods((store) => ({
-    setMasterData(masterData: any) {
-      patchState(store, { masterData });
+    updateEligibility(key: keyof CustomerFormState['eligibilities'], value: boolean) {
+      patchState(store, (state) => ({
+        eligibilities: {
+          ...state.eligibilities,
+          [key]: value,
+        },
+      }));
     },
-    setCreationInfo(creationInfo: any) {
-      patchState(store, { creationInfo });
-    },
-    setOperationalCriteria(operationalCriteria: any[]) {
-      patchState(store, { operationalCriteria });
-    },
-    setOperationalEligibilities(eligibilities: { eligibility_name: string; value: boolean }[]) {
-      patchState(store, { operationalEligibilities: eligibilities });
-    },
-    setEligibilityOptions(options: string[]) {
-      patchState(store, { eligibilityOptions: options });
-    },
-    updateSuspensions(eligibility: string, isEnabled: boolean) {
-      const updatedSuspensions = { ...store.suspensions() };
-
-      if (isEnabled) {
-        updatedSuspensions[eligibility] = {
-          start_date: null,
-          end_date: null,
-          measure: null
-        };
-      } else {
-        delete updatedSuspensions[eligibility];
-      }
-
-      patchState(store, { suspensions: updatedSuspensions });
-    },
-    updateSuspensionDetails(
-      eligibility: string,
-      details: { start_date?: Date; end_date?: Date; measure?: string }
-    ) {
-      const updatedSuspensions = { ...store.suspensions() };
-      updatedSuspensions[eligibility] = {
-        ...updatedSuspensions[eligibility],
-        ...details
-      };
-      patchState(store, { suspensions: updatedSuspensions });
-    }
+    // Computed signals for each suspension's disabled state
+    suspensionDisabledState: computed(() => ({
+      stock_trading: !store.eligibilities().stock_trading,
+      margin_trading: !store.eligibilities().margin_trading,
+      options_trading: !store.eligibilities().options_trading,
+      futures_trading: !store.eligibilities().futures_trading,
+      crypto_trading: !store.eligibilities().crypto_trading,
+    })),
   }))
 );
