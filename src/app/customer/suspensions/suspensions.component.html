@@ -3,36 +3,26 @@
     <mat-card-header>
       <mat-card-title>Suspensions</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <div>
-        <div [class.disabled-card]="form.get('stock_trading')?.disabled">
-          <span>Stock Trading</span>
-          <app-suspension-row [formControlName]="'stock_trading'"></app-suspension-row>
-        </div>
+    <mat-card-content style="display: flex; flex-direction: column">
+      <div [class.disabled-card]="form.get('stock_trading')?.disabled">
+        <span>Stock Trading</span>
+        <app-suspension-row [formControlName]="'stock_trading'"></app-suspension-row>
       </div>
-      <div>
-        <div [class.disabled-card]="form.get('margin_trading')?.disabled">
-          <span>Margin Trading</span>
-          <app-suspension-row [formControlName]="'margin_trading'"></app-suspension-row>
-        </div>
+      <div [class.disabled-card]="form.get('margin_trading')?.disabled">
+        <span>Margin Trading</span>
+        <app-suspension-row [formControlName]="'margin_trading'"></app-suspension-row>
       </div>
-      <div>
-        <div [class.disabled-card]="form.get('options_trading')?.disabled">
-          <span>Options Trading</span>
-          <app-suspension-row [formControlName]="'options_trading'"></app-suspension-row>
-        </div>
+      <div [class.disabled-card]="form.get('options_trading')?.disabled">
+        <span>Options Trading</span>
+        <app-suspension-row [formControlName]="'options_trading'"></app-suspension-row>
       </div>
-      <div>
-        <div [class.disabled-card]="form.get('futures_trading')?.disabled">
-          <span>Futures Trading</span>
-          <app-suspension-row [formControlName]="'futures_trading'"></app-suspension-row>
-        </div>
+      <div [class.disabled-card]="form.get('futures_trading')?.disabled">
+        <span>Futures Trading</span>
+        <app-suspension-row [formControlName]="'futures_trading'"></app-suspension-row>
       </div>
-      <div>
-        <div [class.disabled-card]="form.get('crypto_trading')?.disabled">
-          <span>Crypto Trading</span>
-          <app-suspension-row [formControlName]="'crypto_trading'"></app-suspension-row>
-        </div>
+      <div [class.disabled-card]="form.get('crypto_trading')?.disabled">
+        <span>Crypto Trading</span>
+        <app-suspension-row [formControlName]="'crypto_trading'"></app-suspension-row>
       </div>
     </mat-card-content>
   </mat-card>
