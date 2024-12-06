@@ -4,7 +4,7 @@ import {
   AbstractControl,
   ControlValueAccessor,
   FormBuilder,
-  FormGroup,
+  FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
@@ -17,6 +17,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SuspensionRowComponent } from './suspension-row/suspension-row.component';
+
+interface SuspensionsForm {
+  stock_trading: FormControl<any | null>;
+  margin_trading: FormControl<any | null>;
+  options_trading: FormControl<any | null>;
+  futures_trading: FormControl<any | null>;
+  crypto_trading: FormControl<any | null>;
+}
 
 @Component({
   selector: 'app-suspensions',
@@ -45,15 +53,14 @@ import { SuspensionRowComponent } from './suspension-row/suspension-row.componen
   ],
 })
 export class SuspensionsComponent implements ControlValueAccessor, Validator {
-
   private fb = inject(FormBuilder);
 
-  form = this.fb.group({
-    stock_trading: [null],
-    margin_trading: [null],
-    options_trading: [null],
-    futures_trading: [null],
-    crypto_trading: [null],
+  form = this.fb.group<SuspensionsForm>({
+    stock_trading: new FormControl(null),
+    margin_trading: new FormControl(null),
+    options_trading: new FormControl(null),
+    futures_trading: new FormControl(null),
+    crypto_trading: new FormControl(null),
   });
 
   constructor() {

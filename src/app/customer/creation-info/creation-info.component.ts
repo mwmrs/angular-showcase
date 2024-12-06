@@ -4,6 +4,7 @@ import {
   AbstractControl,
   ControlValueAccessor,
   FormBuilder,
+  FormControl,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -18,33 +19,40 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+// Add the form interface
+interface CreationInfoForm {
+  created_at: FormControl<string>;
+  reason: FormControl<string>;
+  comment: FormControl<string>;
+}
+
 @Component({
-    selector: 'app-creation-info',
-    templateUrl: './creation-info.component.html',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatCardModule,
-    ],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => CreationInfoComponent),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => CreationInfoComponent),
-            multi: true,
-        },
-    ]
+  selector: 'app-creation-info',
+  templateUrl: './creation-info.component.html',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatCardModule,
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CreationInfoComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => CreationInfoComponent),
+      multi: true,
+    },
+  ],
 })
 export class CreationInfoComponent implements ControlValueAccessor, Validator {
-  form: FormGroup;
+  form: FormGroup<CreationInfoForm>;
   reasons = [
     'new_account_request',
     'marketing_campaign',
@@ -55,10 +63,18 @@ export class CreationInfoComponent implements ControlValueAccessor, Validator {
   ];
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      created_at: ['', Validators.required],
-      reason: ['', Validators.required],
-      comment: [''],
+    this.form = this.fb.group<CreationInfoForm>({
+      created_at: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      reason: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      comment: new FormControl('', {
+        nonNullable: true,
+      }),
     });
   }
 
