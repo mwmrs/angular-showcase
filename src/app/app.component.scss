@@ -67,11 +67,16 @@ mat-sidenav {
 mat-sidenav-content {
   flex: 1;
   transition: margin-left 0.3s ease-in-out;
-  margin-left: 200px; // Initial margin when menu is open
+  margin-left: 0;
+  position: relative;
+
+  &:not(.content-expanded) {
+    margin-left: 200px;
+  }
 }
 
 .content-expanded {
-  margin-left: 60px !important; // Margin when menu is collapsed
+  margin-left: 60px !important;
 }
 
 mat-nav-list {
